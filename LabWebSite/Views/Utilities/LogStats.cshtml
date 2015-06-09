@@ -1,0 +1,23 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Log Stats</title>
+</head>
+<body>
+    <div> 
+        @{
+            WebGrid grid = new WebGrid(ViewData["data"] as IEnumerable<object>, null, null, 20, true, true, null, null, null, null, null, null);
+        }
+
+        @grid.GetHtml()
+    </div>
+</body>
+</html>
