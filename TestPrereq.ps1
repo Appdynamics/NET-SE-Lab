@@ -23,17 +23,20 @@ Function Test-Net45
 {
     $path = 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full'
 
-    if (Test-Path $path)
-    {
-        if (Get-ItemProperty $path -Name Version -ErrorAction SilentlyContinue)
-        {
-            $reg = Get-ItemProperty $path
-            if($reg.Version -like "4.5.*")
-            {
-                return
-            }
-        }
-    }
+	if (Test-Path $path)
+	{
+		if (Get-ItemProperty $path -Name Version -ErrorAction SilentlyContinue)
+		{
+			$reg = Get-ItemProperty $path
+			$v = [version]$reg.Version
+			$v45 = [version]"4.5.0"
+			if($v -ge $v45)
+			{
+				return
+			}
+		}
+	}
+
     Write-Warning "Current lab requires .NET 4.5+ Full installed.`nPlease install it from internet and re-run this script."
 	Break
 }
