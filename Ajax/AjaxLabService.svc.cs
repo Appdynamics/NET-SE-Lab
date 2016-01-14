@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -8,6 +8,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace AjaxService
 {
@@ -29,7 +30,12 @@ namespace AjaxService
             var task1 = LogOperation(values);
             var task2 = PerformOperation(values);
 
-            Task.WaitAll(task1, task2);
+            Thread.Sleep(10);
+
+            var res = Task.WhenAll(task1, task2);
+
+            while (!res.IsCompleted)
+                Thread.Sleep(30);
 
             return task2.Result;
         }
