@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -109,7 +109,7 @@ namespace LabHealthCheckService
                     await client.GetStringAsync(URL);
                 }
             }
-            catch(WebException ex)
+            catch(Exception ex)
             {
                 LogError(ex);
             }
@@ -119,16 +119,20 @@ namespace LabHealthCheckService
         {
             string message = DateTime.Now.ToString() + ex.ToString();
             System.Threading.Thread.Sleep(11 + DateTime.Now.Second);
+
+            // Actual error logging typically is here
         }
 
         void DbTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            var t = DbCleanupAsync();
+
             DbCleanUp3(null);
 
-            DbCleanup().Wait();
+            t.Wait();
         }
 
-        async Task DbCleanup()
+        async Task DbCleanupAsync()
         {
             await Task.Factory.StartNew(() => { DbCleanUp1(null); })
                 .ContinueWith((t) => { DbCleanUp2(null); })
@@ -195,7 +199,8 @@ namespace LabHealthCheckService
 
                     cn.Open();
 
-                    cmd.ExecuteNonQuery();
+                    string result = cmd.ExecuteNonQuery() + " rows";
+                    int.Parse(result);
 
                     cn.Close();
                 }
