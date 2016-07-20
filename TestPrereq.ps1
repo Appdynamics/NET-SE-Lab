@@ -67,6 +67,17 @@ Test-PowerShellVersion
 Test-Net45
 Test-Sql
 
+#ensure required windows features are installed
+Import-Module Dism
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-HTTP-Activation
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-NonHTTP-Activation
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-Services45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-HTTP-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-Pipe-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-MSMQ-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-PortSharing45
+
 
 Write-Host ([Environment]::NewLine)
 Write-Host "OK, good to go! Continue installing the lab."
