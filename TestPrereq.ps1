@@ -78,6 +78,10 @@ Enable-WindowsOptionalFeature -Online -FeatureName WCF-Pipe-Activation45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-MSMQ-Activation45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-PortSharing45
 
+#ensure that NetTcpPortSharing service is set to automatic, and is started
+Set-Service NetTcpPortSharing -StartupType Automatic
+Start-Service NetTcpPortSharing
+
 
 Write-Host ([Environment]::NewLine)
 Write-Host "OK, good to go! Continue installing the lab."
