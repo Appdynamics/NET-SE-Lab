@@ -21,22 +21,17 @@ Function Test-PowerShellVersion
 
 Function Test-Net45
 {
-    $path = 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full'
-
-	if (Test-Path $path)
-	{
-		if (Get-ItemProperty $path -Name Version -ErrorAction SilentlyContinue)
-		{
-			$reg = Get-ItemProperty $path
-			$v = [version]$reg.Version
-			$v45 = [version]"4.5.0"
-			if($v -ge $v45)
-			{
-				return
-			}
-		}
-	}
-
+	
+   #get installed versions of .NET that are either 4.5 or 4.6
+   $installedVersions = Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+	Get-ItemProperty -name Version,Release -EA 0 |
+	Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+        Where { $_.Version -match '^4.[5,6].' }
+    if ($installedVersions.Length -gt 0) {
+    	#one or more supported versions installed
+    	return
+    }
+    
     Write-Warning "Current lab requires .NET 4.5+ Full installed.`nPlease install it from internet and re-run this script."
 	Break
 }
