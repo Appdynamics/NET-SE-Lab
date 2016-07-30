@@ -59,6 +59,24 @@ dism /Online /Enable-Feature /FeatureName:WCF-NonHTTP-Activation
  
 
 
+
+#ensure required windows features are installed
+Import-Module Dism
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-HTTP-Activation
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-NonHTTP-Activation
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-Services45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-HTTP-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-Pipe-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-MSMQ-Activation45
+Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-PortSharing45
+
+#ensure that NetTcpPortSharing service is set to automatic, and is started
+Set-Service NetTcpPortSharing -StartupType Automatic
+Start-Service NetTcpPortSharing
+
+
+
 # Register .NET 4.0 on IIS prior to Windows 2012
 if([System.Environment]::OSVersion.Version -lt [System.Version]::Parse("6.2"))
 {
