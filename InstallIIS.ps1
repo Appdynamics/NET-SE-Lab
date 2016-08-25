@@ -68,7 +68,6 @@ Enable-WindowsOptionalFeature -Online -FeatureName WCF-Services45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-HTTP-Activation45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-Activation45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-Pipe-Activation45
-Enable-WindowsOptionalFeature -Online -FeatureName WCF-MSMQ-Activation45
 Enable-WindowsOptionalFeature -Online -FeatureName WCF-TCP-PortSharing45
 
 #ensure that NetTcpPortSharing service is set to automatic, and is started
